@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4364840092515908}
-  - component: {fileID: 114633786468674856}
+  - component: {fileID: 114485741507925426}
   m_Layer: 0
   m_Name: Hex_Grass
   m_TagString: Untagged
@@ -147,7 +147,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114633786468674856
+--- !u!114 &114485741507925426
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -161,3 +161,5 @@ MonoBehaviour:
   x: 0
   y: 0
   occupied: 0
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
+  highlightColor: {r: 0, g: 0, b: 0, a: 0}

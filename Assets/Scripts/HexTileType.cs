@@ -8,5 +8,7 @@ public class HexTileType {
     public string name;
     public GameObject tileVisualPrefab;
     public string tileTerrain;
-    public string tileMovementCost;
+    public bool isWalkable;
+
+    public float tileMovementCost = 1;
 }

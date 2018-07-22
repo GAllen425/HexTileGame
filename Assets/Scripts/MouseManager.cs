@@ -5,6 +5,8 @@ using UnityEngine;
 public class MouseManager : MonoBehaviour {
 
     public Unit selectedUnit;
+
+    public Map map;
     Color normalColor;
     Color highlightColor = Color.red;
 
@@ -59,30 +61,35 @@ public class MouseManager : MonoBehaviour {
 
             if (selectedUnit != null && ourHitObject.GetComponent<Hex>().occupied == false)
             {
+                // get the hex the player stands on before moving
                 selectedUnit.GetCurrentHex();
                 Hex ourCurrentObject = selectedUnit.currentHex;
                 Debug.Log(ourCurrentObject.name);
 
-                selectedUnit.destination = ourHitObject.transform.position + new Vector3(0,0.1f,0);
+                // set destination - unit handles movement
+                map.GeneratePathTo(ourHitObject.GetComponent<Hex>().x, ourHitObject.GetComponent<Hex>().y, selectedUnit);
 
+                // update the object to say we arent standing here anymore
                 ourCurrentObject.occupied = false;
-                ourCurrentObject.GetComponentInChildren<MeshRenderer>().material.color = Color.white;
+                //ourCurrentObject.GetComponentInChildren<MeshRenderer>().material.color = Color.white;
 
                 ourHitObject.GetComponent<Hex>().occupied = true;
             }
         }
 
         // TODO highlighting tiles incorrectly
-        if (selectedUnit != null)
+        /*if (selectedUnit != null)
         {
                 normalColor = mr.material.color;
                 ourHitObject.GetComponent<Hex>().OnMouseEnter(
                     ourHitObject, selectedUnit, mr, normalColor, highlightColor);
                 highlightObject.GetComponent<Hex>().OnMouseExit(
                     ourHitObject, selectedUnit, mr, normalColor);
-        }
+        }*/
 
     }
+
+
 
     void MouseOver_Unit(GameObject ourHitObject)
     {
