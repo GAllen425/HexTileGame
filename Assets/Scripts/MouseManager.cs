@@ -6,7 +6,10 @@ public class MouseManager : MonoBehaviour {
 
     public Unit selectedUnit;
     Color normalColor;
-    Color highlightColor;
+    Color highlightColor = Color.red;
+
+    GameObject ourHitObject;
+    GameObject highlightObject;
 
     void Start()
     {
@@ -16,14 +19,16 @@ public class MouseManager : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
 
-
         if (Physics.Raycast(ray, out hitInfo))
         {
-            GameObject ourHitObject = hitInfo.collider.transform.parent.gameObject;
+            if (hitInfo.collider.transform.parent.gameObject != ourHitObject)
+            {
+                highlightObject = ourHitObject;
+                ourHitObject = hitInfo.collider.transform.parent.gameObject;
+            }
 
             if (ourHitObject.GetComponent<Hex>() != null)
             {
@@ -33,29 +38,27 @@ public class MouseManager : MonoBehaviour {
             {
                 MouseOver_Unit(ourHitObject);
             }
-
         }
     }
 
     void MouseOver_Hex(GameObject ourHitObject)
     {
         //Debug.Log("Mouse position" + Input.mousePosition);
+        MeshRenderer mr = ourHitObject.GetComponentInChildren<MeshRenderer>();
 
         if (Input.GetMouseButtonDown(0))
         {
-            MeshRenderer mr = ourHitObject.GetComponentInChildren<MeshRenderer>();
-            if (mr.material.color == Color.red)
+            /*if (mr.material.color == Color.red)
             {
                 mr.material.color = Color.white;
             }
             else
             { 
                 mr.material.color = Color.red;
-            }
+            }*/
 
             if (selectedUnit != null && ourHitObject.GetComponent<Hex>().occupied == false)
             {
-                // TODO not finding the current object correctly, look into how to find a tile based on current position
                 selectedUnit.GetCurrentHex();
                 Hex ourCurrentObject = selectedUnit.currentHex;
                 Debug.Log(ourCurrentObject.name);
@@ -68,6 +71,17 @@ public class MouseManager : MonoBehaviour {
                 ourHitObject.GetComponent<Hex>().occupied = true;
             }
         }
+
+        // TODO highlighting tiles incorrectly
+        if (selectedUnit != null)
+        {
+                normalColor = mr.material.color;
+                ourHitObject.GetComponent<Hex>().OnMouseEnter(
+                    ourHitObject, selectedUnit, mr, normalColor, highlightColor);
+                highlightObject.GetComponent<Hex>().OnMouseExit(
+                    ourHitObject, selectedUnit, mr, normalColor);
+        }
+
     }
 
     void MouseOver_Unit(GameObject ourHitObject)
@@ -90,6 +104,5 @@ public class MouseManager : MonoBehaviour {
             }
         }
     }
-
 
 }

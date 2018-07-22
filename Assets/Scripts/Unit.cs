@@ -7,6 +7,7 @@ public class Unit : MonoBehaviour {
     public Vector3 destination;
     public Hex currentHex;
     float speed = 2;
+    float movementTurn = 5;
 
 	// Use this for initialization
 	void Start () {
